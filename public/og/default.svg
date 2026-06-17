@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF6EF"/>
+      <stop offset="1" stop-color="#F6C9B4"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="980" cy="120" r="220" fill="#F6C9B4" opacity="0.6"/>
+  <circle cx="1060" cy="520" r="180" fill="#E8927C" opacity="0.4"/>
+  <g transform="translate(90,150)">
+    <rect width="84" height="84" rx="20" fill="#4B2138"/>
+    <text x="42" y="58" text-anchor="middle" font-family="Georgia, serif" font-size="52" font-weight="700" fill="#F6C9B4">B</text>
+  </g>
+  <text x="90" y="330" font-family="Georgia, serif" font-size="68" font-weight="700" fill="#4B2138">Baptist Digitek</text>
+  <text x="90" y="400" font-family="Georgia, serif" font-size="40" font-weight="600" fill="#6D3C52">Digital, Done Right.</text>
+  <text x="90" y="470" font-family="Arial, sans-serif" font-size="26" fill="#765D67">Websites · Software · Apps · Brand — Chennai</text>
+  <text x="90" y="560" font-family="monospace" font-size="20" fill="#765D67" letter-spacing="3">HEALTHCARE · AESTHETIC · DERMATOLOGY · BEAUTY</text>
+</svg>

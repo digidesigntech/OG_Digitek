@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(awk '{print $5\" bytes -> \"$9}')",
+      "Bash(node -e 'const fs=require\\(\"fs\"\\);const h=fs.readFileSync\\(\"out/blog/dpdp-compliant-clinic-platform/index.html\",\"utf8\"\\);const re=/<script type=\"application\\\\/ld\\\\+json\">\\([\\\\s\\\\S]*?\\)<\\\\/script>/g;let m,t=[];while\\(\\(m=re.exec\\(h\\)\\)\\){try{const o=JSON.parse\\(m[1].replace\\(/&amp;/g,\"&\"\\).replace\\(/&quot;/g,\"\\\\\"\"\\).replace\\(/&#x27;/g,\"\\\\x27\"\\).replace\\(/&lt;/g,\"<\"\\).replace\\(/&gt;/g,\">\"\\)\\);t.push\\(o[\"@type\"]\\);}catch\\(e\\){t.push\\(\"FAIL\"\\);}}console.log\\(t.join\\(\", \"\\)\\);')",
+      "Bash(node -e \"const e=require\\('@paper-design/shaders-react'\\);console.log\\('MeshGradient' in e ? 'MeshGradient: yes' : 'MeshGradient: NO'\\); console.log\\(Object.keys\\(e\\).filter\\(k=>/Mesh|Warp/.test\\(k\\)\\).join\\(', '\\)\\)\")",
+      "Bash(node -e \"const fs=require\\('fs'\\);const b=fs.readFileSync\\('public/hero section_model.png'\\);console.log\\('w',b.readUInt32BE\\(16\\),'h',b.readUInt32BE\\(20\\),'ct',b[25]\\);\")",
+      "Bash(curl -s \"http://localhost:3000/\")",
+      "Bash(npx tsc *)"
+    ]
+  }
+}

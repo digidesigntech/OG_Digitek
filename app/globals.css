@@ -1,0 +1,331 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+@layer base {
+  * {
+    @apply border-nude-200/60;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream text-espresso antialiased;
+    font-feature-settings: 'ss01', 'cv01';
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Fixed full-page site backdrop — stays put while the page content scrolls
+     over it. position:fixed (not background-attachment:fixed) so it also holds
+     on mobile/iOS. bg-cream on <body> is the fallback behind any transparency. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: url('/og/complete%20background.png');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight text-espresso;
+    font-weight: 600;
+  }
+
+  ::selection {
+    @apply bg-nude-400 text-espresso;
+  }
+
+  /* §30.3 — Visible keyboard focus indicators. focus-visible (not focus) so a
+     mouse click never shows the ring, only keyboard navigation does. Coral
+     (--wine) reads clearly on both the cream and plum surfaces. */
+  *:focus-visible {
+    outline: 2px solid #e8927c;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Respect reduced-motion preferences (INP / accessibility) */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.22em] text-taupe;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-espresso focus-visible:ring-offset-2 focus-visible:ring-offset-cream;
+  }
+
+  .btn-primary {
+    @apply btn bg-espresso text-cream shadow-soft hover:bg-espresso-light hover:-translate-y-0.5;
+  }
+
+  .btn-secondary {
+    @apply btn border border-espresso/15 bg-white/60 text-espresso backdrop-blur hover:border-espresso/40 hover:bg-white;
+  }
+
+  .btn-ghost {
+    @apply btn text-espresso hover:bg-nude-100;
+  }
+
+  /* Holographic / soft card aesthetic for the capability grid */
+  .holo-card {
+    @apply relative overflow-hidden rounded-3xl border border-white/70 bg-gradient-to-br from-white/90 to-nude-50 p-7 shadow-card transition-all duration-500;
+  }
+  .holo-card::before {
+    content: '';
+    @apply pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500;
+    background: radial-gradient(
+      600px circle at var(--x, 50%) var(--y, 0%),
+      rgba(246, 201, 180, 0.55),
+      transparent 40%
+    );
+  }
+  .holo-card:hover::before {
+    @apply opacity-100;
+  }
+  .holo-card:hover {
+    @apply -translate-y-1 shadow-glow;
+  }
+
+  .surface {
+    @apply rounded-3xl border border-nude-200/70 bg-white/70 backdrop-blur;
+  }
+
+  .link-underline {
+    @apply relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all after:duration-300 hover:after:w-full;
+  }
+}
+
+/* Loader for the Spline 3D scene Suspense fallback */
+.loader {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  border: 3px solid rgba(246, 201, 180, 0.25);
+  border-top-color: #f6c9b4;
+  animation: loader-spin 0.8s linear infinite;
+}
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loader {
+    animation-duration: 1.6s;
+  }
+}
+
+/* Infinite horizontal marquee for the design portfolio "All" view. The track
+   holds two identical copies of the row, so translating by -50% loops seamlessly. */
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: inline-flex;
+  width: max-content;
+  animation: marquee-x linear infinite;
+  will-change: transform;
+}
+.marquee-row:hover .marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Holographic layered 3D numerals for the capability cards.
+   Same dimensions as the source effect (140px / 128px); the purple has been
+   re-tinted to the brand palette: coral (#E8927C) + deep plum (#3A1F2E) + peach.
+---------------------------------------------------------------------------- */
+.card-5 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  perspective: 900px;
+  margin: 2px 0 16px;
+}
+
+.card-5__holo {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 26px;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  animation: card5-wobble 6.2s ease-in-out infinite;
+}
+
+@keyframes card5-wobble {
+  0% {
+    transform: rotateX(16deg) rotateY(-18deg);
+  }
+  50% {
+    transform: rotateX(18deg) rotateY(18deg);
+  }
+  100% {
+    transform: rotateX(16deg) rotateY(-18deg);
+  }
+}
+
+.card-5__layer {
+  position: absolute;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 700;
+  font-size: 108px;
+  letter-spacing: -6px;
+  line-height: 1;
+
+  -webkit-text-stroke: 1px rgba(75, 33, 56, 0.55);
+
+  background: linear-gradient(
+    90deg,
+    rgba(250, 220, 213, 0.35) 0%,
+    rgba(109, 60, 82, 0.95) 32%,
+    rgba(75, 33, 56, 0.85) 58%,
+    rgba(232, 146, 124, 0.32) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  filter: drop-shadow(0 10px 22px rgba(27, 12, 26, 0.3));
+  opacity: 0.95;
+  transform-style: preserve-3d;
+}
+
+.card-5__layer--back {
+  opacity: 0.18;
+  filter: blur(1px);
+  transform: translateZ(-70px);
+  -webkit-text-stroke: 1px rgba(118, 93, 103, 0.4);
+}
+.card-5__layer--mid {
+  opacity: 0.42;
+  filter: blur(0.4px);
+  transform: translateZ(-34px);
+  -webkit-text-stroke: 1px rgba(109, 60, 82, 0.5);
+}
+.card-5__layer--front {
+  opacity: 0.98;
+  transform: translateZ(0px);
+  -webkit-text-stroke: 1px rgba(75, 33, 56, 0.62);
+}
+
+.card-5__holo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  background: radial-gradient(
+    circle at 40% 35%,
+    rgba(232, 146, 124, 0.16),
+    rgba(0, 0, 0, 0) 62%
+  );
+  filter: blur(8px);
+  opacity: 0.9;
+  transform: translateZ(-80px);
+}
+
+.card-5__holo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  border: 1px solid rgba(75, 33, 56, 0.12);
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.45),
+    rgba(255, 255, 255, 0.05) 45%,
+    rgba(0, 0, 0, 0)
+  );
+  opacity: 0.55;
+  transform: translateZ(-45px);
+}
+
+@media (max-width: 600px) {
+  .card-5__holo {
+    width: 128px;
+    height: 128px;
+    border-radius: 24px;
+  }
+  .card-5__layer {
+    font-size: 96px;
+    letter-spacing: -5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-5__holo {
+    animation: none !important;
+  }
+}
+
+/* Keyframes that ship with the shadcn shader-animation component (used for any
+   fade-in / animated-gradient text built on top of it). */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Subtle grain / texture helper for premium feel */
+.bg-grain {
+  background-image: radial-gradient(rgba(75, 33, 56, 0.04) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
